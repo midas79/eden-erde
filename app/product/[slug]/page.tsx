@@ -1,3 +1,4 @@
+import AddToBag from "@/app/components/AddToBag";
 import ImageGallery from "@/app/components/imageGallery";
 import { fullProduct } from "@/app/interface";
 import { client } from "@/app/lib/sanity";
@@ -13,6 +14,7 @@ async function getData(slug: string) {
         description,
         "slug": slug.current,
         "categoryName": category->name,
+        price_id
     }`;
 
   const data = await client.fetch(query);
@@ -50,30 +52,36 @@ export default async function ProductPage({
               </span>
             </div>
             <div className="mb-4">
-                <div className="flex items-end gap-2">
-                    <span className="text-xl font-bold text-gray-800 md:text-2xl">
-                        ${data.price}
-                    </span>
-                    <span className="mb-0.5 text-red-500 line-through">
-                        ${data.price + 30}
-                    </span>
-                </div>
-                <span className="text-sm text-gray-500">
-                    Incl. Vat plus shipping
+              <div className="flex items-end gap-2">
+                <span className="text-xl font-bold text-gray-800 md:text-2xl">
+                  ${data.price}
                 </span>
+                <span className="mb-0.5 text-red-500 line-through">
+                  ${data.price + 30}
+                </span>
+              </div>
+              <span className="text-sm text-gray-500">
+                Incl. Vat plus shipping
+              </span>
             </div>
             <div className="mb-6 flex items-center gap-2 text-gray-500">
-                <Truck className="w-6 h-6"/>
-                <span className="text-sm">
-                    2-4 Day Shipping
-                </span>
+              <Truck className="w-6 h-6" />
+              <span className="text-sm">2-4 Day Shipping</span>
             </div>
             <div className="flex gap-2.5">
-                <Button>Add To Bag</Button>
-                <Button variant={"secondary"}>Checkout now</Button>
+              <AddToBag
+                currency="USD"
+                description={data.description}
+                image={data.images[0]}
+                name={data.name}
+                price={data.price}
+                key={data._id}
+                price_id={data.price_id}
+              />
+              <Button variant={"secondary"}>Checkout now</Button>
             </div>
             <div className="mt-12 text-base text-gray-500 tracking-wide">
-                {data.description}
+              {data.description}
             </div>
           </div>
         </div>
