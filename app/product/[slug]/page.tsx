@@ -1,6 +1,6 @@
 import AddToBag from "@/app/components/AddToBag";
 import ImageGallery from "@/app/components/imageGallery";
-import { fullProduct } from "@/app/interface";
+import { FullProduct } from "@/app/interface";
 import { client } from "@/app/lib/sanity";
 import { Button } from "@/components/ui/button";
 import { Star, Truck } from "lucide-react";
@@ -27,7 +27,7 @@ export default async function ProductPage({
 }: {
   params: { slug: string };
 }) {
-  const data: fullProduct = await getData(params.slug);
+  const data: FullProduct = await getData(params.slug);
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-screen-xl px-4 md:px-8">
