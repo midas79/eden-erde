@@ -9,6 +9,17 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import { useShoppingCart } from "use-shopping-cart";
+import { toast } from "react-hot-toast"; // Pastikan modul ini sudah diinstal
+
+// Buat interface CartEntry agar sesuai dengan struktur data cartDetails
+interface CartEntry {
+  id: string;
+  name: string;
+  price: number;
+  image?: string;
+  quantity: number;
+  description?: string;
+}
 
 export default function ShoppingCartModel() {
   const {
@@ -21,19 +32,21 @@ export default function ShoppingCartModel() {
     redirectToCheckout,
   } = useShoppingCart();
 
-  async function handleCheckoutClick(event: any) {
+  async function handleCheckoutClick(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     try {
       const result = await redirectToCheckout();
       if (result?.error) {
-        console.log("result");
+        toast.error("Failed to redirect to checkout.");
       }
     } catch (error) {
-      console.log(error);
+      toast.error("An error occurred during checkout.");
+      console.error(error);
     }
   }
+
   return (
-    <Sheet open={shouldDisplayCart} onOpenChange={() => handleCartClick()}>
+    <Sheet open={shouldDisplayCart} onOpenChange={(isOpen) => !isOpen && handleCartClick()}>
       <SheetContent className="sm:max-w-lg w-[90vw]">
         <SheetHeader>
           <SheetTitle>Shopping Cart</SheetTitle>
@@ -45,12 +58,12 @@ export default function ShoppingCartModel() {
                 <h1 className="py-6">You don't have any items</h1>
               ) : (
                 <>
-                  {Object.values(cartDetails ?? {}).map((entry) => (
+                  {Object.values(cartDetails ?? {}).map((entry: CartEntry) => (
                     <li key={entry.id} className="flex py-6">
                       <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                         <Image
                           src={entry.image as string}
-                          alt="Product Image"
+                          alt={entry.name}
                           width={100}
                           height={100}
                         />
@@ -60,7 +73,7 @@ export default function ShoppingCartModel() {
                         <div>
                           <div className="flex justify-between text-base font-medium text-gray-900">
                             <h3>{entry.name}</h3>
-                            <p className="ml-4">${entry.price}</p>
+                            <p className="ml-4">${entry.price.toFixed(2)}</p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500 line-clamp-2">
                             {entry.description}
@@ -88,7 +101,7 @@ export default function ShoppingCartModel() {
           <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
             <div className="flex justify-between text-base font-medium text-gray-900">
               <p>Subtotal</p>
-              <p>${totalPrice}</p>
+              <p>${totalPrice?.toFixed(2) ?? "0.00"}</p>
             </div>
             <p className="mt-0.5 text-sm text-gray-500">
               Shipping and taxes are calculated at checkout.
