@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { simplifiedProduct } from "../interface";
+import { SimplifiedProduct } from "../interface";
 import { client } from "../lib/sanity";
 import Image from "next/image";
 
@@ -17,12 +17,14 @@ async function getData(category: string) {
   return data;
 }
 
+export const dynamic = 'force-dynamic';
+
 export default async function CategoryPage({
   params,
 }: {
   params: { category: string };
 }) {
-  const data: simplifiedProduct[] = await getData(params.category);
+  const data: SimplifiedProduct[] = await getData(params.category);
 
   return (
     <div className="bg-white">
