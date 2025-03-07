@@ -54,7 +54,7 @@ export default function ShoppingCartModel() {
         <div className="h-full flex flex-col justify-between">
           <div className="mt-8 flex-1 overflow-y-auto">
             {cartCount === 0 ? (
-              <h1 className="py-6">You don't have any items</h1>
+              <h1 className="py-6">You don&rsquo;t have any items</h1>
             ) : (
               <ul className="-my-6 divide-y divide-gray-200">
                 {Object.values(cartDetails ?? {}).map((entry: CartEntry) => (

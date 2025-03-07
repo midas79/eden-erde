@@ -1,6 +1,3 @@
-import { SanityImageSource } from "@sanity/image-url/lib/types/types";
-
-
 export interface SimplifiedProduct {
     _id: string;
     imageUrl: string; 
