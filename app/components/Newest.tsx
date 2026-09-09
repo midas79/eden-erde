@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { simplifiedProduct } from "../interface";
+import { SimplifiedProduct } from "../interface";
 import { client } from "../lib/sanity";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
@@ -20,7 +20,7 @@ async function getData() {
 }
 
 export default async function Newest() {
-  const data: simplifiedProduct[] = await getData();
+  const data: SimplifiedProduct[] = await getData();
 
   return (
     <div className="bg-white">

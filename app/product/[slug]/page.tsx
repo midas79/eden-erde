@@ -28,9 +28,10 @@ export const dynamic = 'force-dynamic';
 export default async function ProductPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const data: FullProduct = await getData(params.slug);
+  const { slug } = await params;
+  const data: FullProduct = await getData(slug);
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-screen-xl px-4 md:px-8">

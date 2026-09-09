@@ -9,8 +9,8 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       mode="payment"
       cartMode="client-only"
       stripe={process.env.NEXT_PUBLIC_STRIPE_KEY as string}
-      successUrl="https://eden-erde.vercel.app/stripe/success"
-      cancelUrl="https://eden-erde.vercel.app/stripe/error"
+      successUrl={`${process.env.NEXT_PUBLIC_URL}/stripe/success`}
+      cancelUrl={`${process.env.NEXT_PUBLIC_URL}/stripe/error`}
       currency="USD"
       billingAddressCollection={false}
       shouldPersist={true}
