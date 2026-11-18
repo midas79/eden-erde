@@ -28,21 +28,42 @@ export default async function CategoryPage({
   const data: SimplifiedProduct[] = await getData(category);
 
   return (
-    <div className="bg-white">
-      <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+    <div>
+      <section className="container pt-[var(--space-3xl)]">
+        <div className="flex flex-col gap-[var(--space-lg)] border-b border-[var(--color-rule)] pb-[var(--space-xl)]">
+          <h1 className="!text-[var(--text-section)] max-w-[24ch]">
             Our {category} Products
-          </h2>
+          </h1>
+          <p className="measure">
+            {data.length} {data.length === 1 ? "piece" : "pieces"} set out in the shop,
+            each one ours to keep. Prices are what the shop charges.
+          </p>
+          <nav aria-label="The other ranges" className="flex flex-wrap items-center gap-x-[var(--space-lg)] gap-y-[var(--space-xs)] text-[var(--text-md)]">
+            <Link href="/all" className="muted hover:text-[var(--color-ink)] underline-offset-4 hover:underline">
+              All pieces
+            </Link>
+            <span className="muted" aria-hidden="true">/</span>
+            <Link href="/Chairs" className={`hover:text-[var(--color-ink)] ${category === "Chairs" ? "underline decoration-[var(--color-accent)] underline-offset-4" : ""}`}>
+              Chairs
+            </Link>
+            <span className="muted" aria-hidden="true">/</span>
+            <Link href="/Couches" className={`hover:text-[var(--color-ink)] ${category === "Couches" ? "underline decoration-[var(--color-accent)] underline-offset-4" : ""}`}>
+              Couches
+            </Link>
+            <span className="muted" aria-hidden="true">/</span>
+            <Link href="/Tables" className={`hover:text-[var(--color-ink)] ${category === "Tables" ? "underline decoration-[var(--color-accent)] underline-offset-4" : ""}`}>
+              Tables
+            </Link>
+          </nav>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        <div className="mt-[var(--space-2xl)] grid grid-cols-1 gap-x-[var(--gap-columns)] gap-y-[var(--space-2xl)] sm:grid-cols-2 lg:grid-cols-4">
           {data.map((product) => (
             <div key={product._id} className="group relative">
-              <div className="aspect-square w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:h-80">
+              <div className="aspect-square w-full overflow-hidden rounded-[2px] bg-gray-200 group-hover:opacity-75 lg:h-80">
                 <Image
                   src={product.imageUrl}
-                  alt="Product image"
+                  alt={product.name}
                   className="w-full h-full object-cover object-center lg:h-full lg:w-full"
                   width={300}
                   height={300}
@@ -67,7 +88,7 @@ export default async function CategoryPage({
             </div>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

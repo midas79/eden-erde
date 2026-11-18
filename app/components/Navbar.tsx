@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { ShoppingBag, Menu, X, Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useShoppingCart } from "use-shopping-cart";
@@ -20,68 +19,63 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="mb-8 border-b">
-      <div className="flex items-center justify-between mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Link href="/">
-          <h1 className="text-2xl md:text-4xl font-bold">
-            Eden<span className="text-gray-600">Erde</span>
-          </h1>
+    <header className="nav">
+      <div className="container nav__row">
+        <Link href="/" aria-label="EdenErde, home">
+          <span className="wordmark">
+            Eden<em>Erde</em>
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex gap-12 2xl:ml-16">
+        <nav className="nav__links">
           {links.map((link, idx) => (
             <Link
               key={idx}
               href={link.href}
-              className={`text-lg font-semibold transition duration-100 ${
-                pathname === link.href
-                  ? "text-primary"
-                  : "text-gray-600 hover:text-primary"
-              }`}
+              aria-current={pathname === link.href ? "page" : undefined}
             >
               {link.name}
             </Link>
           ))}
         </nav>
 
-        {/* Shopping Cart and Menu Button */}
-        <div className="flex items-center">
-          <Button
-            variant={"ghost"}
-            onClick={() => handleCartClick()}
-            className="flex flex-col gap-y-1.5 h-12 w-12 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-none"
-          >
-            <ShoppingBag />
-            <span className="text-xs font-semibold text-primary sm:block">
-              Cart
-            </span>
-          </Button>
+        {/* Search and Shopping Cart */}
+        <div className="flex items-center gap-x-2">
+          <Link href="/all" className="nav__search" aria-label="Search the collection">
+            <Search size={16} aria-hidden="true" />
+            <span>Search</span>
+          </Link>
           <button
-            className="lg:hidden p-2 text-gray-600 hover:text-primary ml-4"
-            onClick={() => setMenuOpen(!menuOpen)}
+            type="button"
+            onClick={() => handleCartClick()}
+            className="nav__cart btn btn--quiet gap-x-2"
+            aria-label="Open cart"
           >
-            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+            <ShoppingBag size={18} aria-hidden="true" />
+            <span>Cart</span>
+          </button>
+          <button
+            type="button"
+            className="lg:hidden btn btn--quiet"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-expanded={menuOpen}
+            aria-label="Menu"
+          >
+            {menuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Navigation */}
       {menuOpen && (
-        <nav
-          className={`lg:hidden flex flex-col gap-4 p-4 bg-white border-t transition-[height,opacity] duration-500 ease-in-out overflow-hidden ${
-            menuOpen ? "h-auto opacity-100" : "h-0 opacity-0"
-          }`}
-        >
+        <nav className="lg:hidden container flex flex-col gap-y-3 pb-6 opacity-100 transition-[transform,opacity] duration-500 ease-in-out">
           {links.map((link, idx) => (
             <Link
               key={idx}
               href={link.href}
-              className={`text-lg font-semibold block ${
-                pathname === link.href
-                  ? "text-primary"
-                  : "text-gray-600 hover:text-primary"
-              }`}
+              className="block text-lg"
+              aria-current={pathname === link.href ? "page" : undefined}
               onClick={() => setMenuOpen(false)}
             >
               {link.name}

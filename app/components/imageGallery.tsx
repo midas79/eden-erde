@@ -23,45 +23,46 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
   };
 
   return (
-    <div className="grid gap-4 lg:grid-cols-5">
+    <div className="grid gap-4">
       {/* Thumbnail Image List */}
-      <div className="order-last flex gap-6 lg:order-none lg:flex-col">
+      <div className="gallery__thumbs order-last">
         {images.map((image, idx) => (
-          <div
+          <button
+            type="button"
             key={image._id ?? idx}
-            className="overflow-hidden rounded-lg bg-gray-100"
+            className="gallery__thumb"
+            aria-pressed={bigImage === image}
+            aria-label={`View image ${idx + 1}`}
+            onClick={() => handleSmallImageClick(image)}
           >
             <Image
               src={urlFor(image).url()}
-              width={200}
-              height={200}
-              alt="Thumbnail"
-              className="h-full w-full object-cover object-center cursor-pointer"
-              onClick={() => handleSmallImageClick(image)}
+              width={144}
+              height={176}
+              alt=""
+              className="object-cover object-center"
             />
-          </div>
+          </button>
         ))}
       </div>
 
       {/* Big Image */}
       {bigImage ? (
-        <div className="relative overflow-hidden rounded-lg bg-gray-100 lg:col-span-4">
-          <Image
-            src={urlFor(bigImage).url()}
-            alt="Main Image"
-            width={500}
-            height={500}
-            className="h-full w-full object-cover object-center"
-            priority
-          />
-          <span className="absolute left-0 top-0 rounded-br-lg bg-red-500 px-3 py-1.5 text-sm uppercase tracking-wider text-white">
-            Sale
-          </span>
+        <div className="plate">
+          <div className="gallery__main" data-slot="product-main" data-alt="The piece photographed in the room">
+            <Image
+              src={urlFor(bigImage).url()}
+              alt="Main Image"
+              width={1200}
+              height={1500}
+              className="h-full w-full object-cover object-center"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+            />
+          </div>
         </div>
       ) : (
-        <p className="col-span-4 text-center text-gray-500">
-          No images available
-        </p>
+        <p className="text-center text-gray-500">No images available</p>
       )}
     </div>
   );

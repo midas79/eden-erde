@@ -10,59 +10,83 @@ async function getData() {
   return data;
 }
 
+async function getCounts() {
+  const query = `{
+    "chairs": count(*[_type == "product" && category->name == "Chairs"]),
+    "couches": count(*[_type == "product" && category->name == "Couches"]),
+    "tables": count(*[_type == "product" && category->name == "Tables"])
+  }`;
+
+  return (await client.fetch(query)) as Record<string, number>;
+}
+
 export default async function Hero() {
   const data = await getData();
+  const counts = (await getCounts()) ?? {};
+
   return (
-    <section className="mx-auto max-w-2xl px-4 sm:pb-6 lg:max-w-7xl lg:px-8">
-      <div className="mb-8 flex flex-wrap justify-between md:mb-16">
-        <div className="mb-6 flex w-full flex-col justify-center sm:mb-0 lg:mb-0 lg:w-1/3 lg:pb-24 lg:pt-48">
-          <h1 className="mb-4 text-4xl font-bold text-primary sm:text-5xl md:mb-8 md:text-6xl">
-            Timeless Design, Inspired by Nature
-          </h1>
-          <p className="max-w-md leading-relaxed text-gray-500 xl:text-lg">
-            Experience the perfect fusion of modern elegance and natural beauty.
-            Our furniture is crafted to bring warmth, comfort, and
-            sophistication into your home.
+    <section className="hero container flex min-h-[calc(100dvh-var(--nav-h))] items-center pt-[var(--space-2xl)] pb-[var(--space-2xl)]">
+      <div className="hero__grid grid w-full grid-cols-1 gap-x-[var(--gap-columns)] gap-y-[var(--space-2xl)] lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:items-start">
+        {/* the corridor: one column, the room's air around it */}
+        <div className="mx-auto w-full max-w-[560px]">
+          <div className="stock px-[var(--space-xl)] pb-[var(--space-xl)] pt-[var(--space-lg)]">
+            <h1 className="mb-[var(--space-md)]">
+              Timeless Design, Inspired by Nature
+            </h1>
+            <p className="measure mb-[var(--space-lg)]">
+              Furniture crafted to bring warmth and calm into your home.
+            </p>
+            <div className="flex flex-wrap items-center justify-between gap-[var(--space-md)]">
+              <Link href="/all" className="btn">
+                Shop the collection
+              </Link>
+              <div className="bands w-[var(--space-4xl)]" aria-hidden="true">
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+              </div>
+            </div>
+          </div>
+          <div className="plate mt-[var(--space-lg)]">
+            <Link href="/Couches">
+              <Image
+                src={urlFor(data.image2).url()}
+                alt="Gray Beige Couch in a sunlit room"
+                className="aspect-[16/9] w-full object-cover object-center"
+                width={1120}
+                height={630}
+                sizes="(max-width: 1024px) 100vw, 560px"
+                priority
+              />
+            </Link>
+            <figcaption>
+              <span>Gray Beige Couch, in a room</span>
+              <span>$950</span>
+            </figcaption>
+          </div>
+        </div>
+
+        {/* the range: hairline rows, the counts the shop holds */}
+        <nav aria-label="The range" className="range-col">
+          <div className="range">
+            <Link href="/Chairs" className="range__row">
+              <span>Chairs</span>
+              <span className="num">({counts.chairs ?? 0})</span>
+            </Link>
+            <Link href="/Couches" className="range__row">
+              <span>Couches</span>
+              <span className="num">({counts.couches ?? 0})</span>
+            </Link>
+            <Link href="/Tables" className="range__row">
+              <span>Tables</span>
+              <span className="num">({counts.tables ?? 0})</span>
+            </Link>
+          </div>
+          <p className="mt-[var(--space-md)] text-sm">
+            Pieces held in the shop today.
           </p>
-        </div>
-        <div className="mb-12 flex w-full md:mb-16 lg:w-2/3">
-          <div className="relative left-12 top-12 z-10 -ml-12 overflow-hidden rounded-lg bg-gray-100 shadow-lg md:left-16 md:top-16 lg:ml-0">
-            <Image
-              src={urlFor(data.image1).url()}
-              alt="Great Photo"
-              className="h-full w-full object-cover object-center"
-              width={500}
-              height={500}
-              priority
-            />
-          </div>
-          <div className="overflow-hidden rounded-lg bg-gray-100 shadow-lg">
-            <Image
-              src={urlFor(data.image2).url()}
-              alt="Great Photo"
-              className="h-full w-full object-cover object-center"
-              width={500}
-              height={500}
-              priority
-            />
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col items-center justify-between gap-8 md-flex-row">
-        <div className="flex h-12 w-64 divide-x overflow-hidden rounded-lg border">
-          <Link
-            href="/Chairs"
-            className="flex w-1/3 items-center justify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200"
-          >Chairs</Link>
-          <Link
-            href="/Couches"
-            className="flex w-1/3 items-center justify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200"
-          >Couches</Link>
-          <Link
-            href="/Tables"
-            className="flex w-1/3 items-center justify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200"
-          >Tables</Link>
-        </div>
+        </nav>
       </div>
     </section>
   );
