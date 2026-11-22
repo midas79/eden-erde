@@ -31,7 +31,7 @@ export default async function Hero() {
         <div className="mx-auto w-full max-w-[560px]">
           <div className="stock px-[var(--space-xl)] pb-[var(--space-xl)] pt-[var(--space-lg)]">
             <h1 className="mb-[var(--space-md)]">
-              Timeless Design, Inspired by Nature
+              Timeless Furniture, Inspired by Nature
             </h1>
             <p className="measure mb-[var(--space-lg)]">
               Furniture crafted to bring warmth and calm into your home.
@@ -60,10 +60,6 @@ export default async function Hero() {
                 priority
               />
             </Link>
-            <figcaption>
-              <span>Gray Beige Couch, in a room</span>
-              <span>$950</span>
-            </figcaption>
           </div>
         </div>
 

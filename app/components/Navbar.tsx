@@ -20,8 +20,9 @@ export default function Navbar() {
 
   return (
     <header className="nav">
+      <a className="skip-link" href="#main">Skip to content</a>
       <div className="container nav__row">
-        <Link href="/" aria-label="EdenErde, home">
+        <Link href="/" aria-label="EdenErde, home" className="nav__brand">
           <span className="wordmark">
             Eden<em>Erde</em>
           </span>

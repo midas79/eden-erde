@@ -43,3 +43,8 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# design tooling
+/.hallmark/
+/.taste-skill/
+dev.log

@@ -6,8 +6,16 @@ import ShoppingCartModel from "./components/ShoppingCartModel";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
-  title: "EdenErde",
-  description: "Timeless Design, Inspired by Nature",
+  title: "EdenErde — Timeless Furniture, Inspired by Nature",
+  description:
+    "A furniture shop of timeless pieces: chairs, couches and tables crafted to bring warmth and calm into your home.",
+  openGraph: {
+    title: "EdenErde — Timeless Furniture, Inspired by Nature",
+    description:
+      "Chairs, couches and tables crafted to bring warmth and calm into your home.",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({

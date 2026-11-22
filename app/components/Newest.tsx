@@ -24,7 +24,7 @@ export default async function Newest() {
   return (
     <section className="section container">
       <div className="flex items-baseline justify-between gap-[var(--space-md)] border-b border-[var(--color-rule)] pb-[var(--space-sm)]">
-        <h2>Newest pieces</h2>
+        <h2>Newest furniture</h2>
 
         <Link className="seeall" href="/all">
           See all

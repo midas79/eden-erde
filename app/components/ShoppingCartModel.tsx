@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -9,7 +8,7 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import { useShoppingCart } from "use-shopping-cart";
-import { toast } from "react-hot-toast"; // Pastikan modul ini sudah diinstal
+import { toast } from "react-hot-toast";
 
 // Buat interface CartEntry agar sesuai dengan struktur data cartDetails
 interface CartEntry {
@@ -56,10 +55,10 @@ export default function ShoppingCartModel() {
             {cartCount === 0 ? (
               <h1 className="py-6">You don&rsquo;t have any items</h1>
             ) : (
-              <ul className="-my-6 divide-y divide-gray-200">
+              <ul className="sheet-list -my-6">
                 {Object.values(cartDetails ?? {}).map((entry: CartEntry) => (
                   <li key={entry.id} className="flex py-6">
-                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-[2px]">
                       <Image
                         src={entry.image as string}
                         alt={entry.name}
@@ -70,21 +69,21 @@ export default function ShoppingCartModel() {
 
                     <div className="ml-4 flex flex-1 flex-col">
                       <div>
-                        <div className="flex justify-between text-base font-medium text-gray-900">
-                          <h3>{entry.name}</h3>
-                          <p className="ml-4">${entry.price.toFixed(2)}</p>
+                        <div className="flex justify-between text-base font-medium text-[var(--color-ink)]">
+                          <h3 className="piece__name text-base">{entry.name}</h3>
+                          <p className="ml-4 num">${entry.price.toFixed(2)}</p>
                         </div>
-                        <p className="mt-1 text-sm text-gray-500 line-clamp-2">
+                        <p className="mt-1 text-sm text-[var(--color-muted)] line-clamp-2">
                           {entry.description}
                         </p>
                       </div>
                       <div className="flex flex-1 items-end justify-between text-sm">
-                        <p className="text-gray-500">Qty: {entry.quantity}</p>
+                        <p className="text-[var(--color-muted)]">Qty: {entry.quantity}</p>
                         <div className="flex">
                           <button
                             type="button"
                             onClick={() => removeItem(entry.id)}
-                            className="font-medium text-primary hover:text-primary/80"
+                            className="linkbtn text-sm"
                           >
                             Remove
                           </button>
@@ -96,27 +95,28 @@ export default function ShoppingCartModel() {
               </ul>
             )}
           </div>
-          <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-            <div className="flex justify-between text-base font-medium text-gray-900">
+          <div className="border-t border-[var(--color-rule)] px-4 py-6 sm:px-6">
+            <div className="flex justify-between text-base font-medium text-[var(--color-ink)]">
               <p>Subtotal</p>
-              <p>${totalPrice?.toFixed(2) ?? "0.00"}</p>
+              <p className="num">${totalPrice?.toFixed(2) ?? "0.00"}</p>
             </div>
-            <p className="mt-0.5 text-sm text-gray-500">
+            <p className="mt-0.5 text-sm text-[var(--color-muted)]">
               Shipping and taxes are calculated at checkout.
             </p>
             <div className="mt-6">
-              <Button onClick={handleCheckoutClick} className="w-full">
+              <button type="button" onClick={handleCheckoutClick} className="btn w-full">
                 Checkout
-              </Button>
+              </button>
             </div>
-            <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+            <div className="mt-6 flex justify-center text-center text-sm text-[var(--color-muted)]">
               <p>
-                OR{" "}
+                Or{" "}
                 <button
+                  type="button"
                   onClick={() => handleCartClick()}
-                  className="font-medium text-primary hover:text-primary/80"
+                  className="linkbtn text-sm"
                 >
-                  Continue Shopping
+                  Continue shopping
                 </button>
               </p>
             </div>
