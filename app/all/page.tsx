@@ -24,12 +24,12 @@ export default async function AllPage() {
   return (
     <div>
       <section className="container pt-[var(--space-3xl)]">
-        <div className="flex flex-col gap-[var(--space-lg)] border-b border-[var(--color-rule)] pb-[var(--space-xl)]">
+        <div className="flex flex-col gap-[var(--space-md)] border-b border-[var(--color-rule)] pb-[var(--space-lg)]">
           <h1>All products</h1>
           <p className="measure">
             Every piece in the shop, newest first.
           </p>
-          <nav aria-label="The range" className="flex flex-wrap items-center gap-x-[var(--space-lg)] gap-y-[var(--space-xs)] text-[var(--text-md)]">
+          <nav aria-label="The range" className="flex flex-wrap items-center gap-x-[var(--space-md)] gap-y-[var(--space-2xs)] text-[var(--text-md)]">
             <Link href="/Chairs" className="muted hover:text-[var(--color-ink)]">
               Chairs
             </Link>

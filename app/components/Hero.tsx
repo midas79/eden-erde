@@ -27,9 +27,9 @@ export default async function Hero() {
   return (
     <section className="hero container flex min-h-[calc(100dvh-var(--nav-h))] items-center pt-[var(--space-2xl)] pb-[var(--space-2xl)]">
       <div className="hero__grid grid w-full grid-cols-1 gap-x-[var(--gap-columns)] gap-y-[var(--space-2xl)] lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:items-start">
-        {/* the corridor: one column, the room's air around it */}
-        <div className="mx-auto w-full max-w-[560px]">
-          <div className="stock px-[var(--space-xl)] pb-[var(--space-xl)] pt-[var(--space-lg)]">
+        {/* the corridor: the offer, then the room it lives in */}
+        <div className="grid grid-cols-1 gap-y-[var(--space-xl)] sm:grid-cols-2 sm:items-start">
+          <div className="stock">
             <h1 className="mb-[var(--space-md)]">
               Timeless Furniture, Inspired by Nature
             </h1>
@@ -48,12 +48,12 @@ export default async function Hero() {
               </div>
             </div>
           </div>
-          <div className="plate mt-[var(--space-lg)]">
-            <Link href="/Couches">
+          <div className="plate h-full">
+            <Link href="/Couches" className="block h-full">
               <Image
                 src={urlFor(data.image2).url()}
                 alt="Gray Beige Couch in a sunlit room"
-                className="aspect-[16/9] w-full object-cover object-center"
+                className="aspect-[4/5] h-full w-full object-cover object-center sm:aspect-auto"
                 width={1120}
                 height={630}
                 sizes="(max-width: 1024px) 100vw, 560px"

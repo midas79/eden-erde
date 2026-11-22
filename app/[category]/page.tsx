@@ -30,12 +30,12 @@ export default async function CategoryPage({
   return (
     <div>
       <section className="container pt-[var(--space-3xl)]">
-        <div className="flex flex-col gap-[var(--space-lg)] border-b border-[var(--color-rule)] pb-[var(--space-xl)]">
+        <div className="flex flex-col gap-[var(--space-md)] border-b border-[var(--color-rule)] pb-[var(--space-lg)]">
           <h1 className="max-w-[24ch]">{category}</h1>
           <p className="measure">
             {data.length} {data.length === 1 ? "piece" : "pieces"} set out in the shop.
           </p>
-          <nav aria-label="The other ranges" className="flex flex-wrap items-center gap-x-[var(--space-lg)] gap-y-[var(--space-xs)] text-[var(--text-md)]">
+          <nav aria-label="The other ranges" className="flex flex-wrap items-center gap-x-[var(--space-md)] gap-y-[var(--space-2xs)] text-[var(--text-md)]">
             <Link href="/all" className="muted hover:text-[var(--color-ink)] underline-offset-4 hover:underline">
               All pieces
             </Link>
