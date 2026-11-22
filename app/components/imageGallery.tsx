@@ -4,65 +4,63 @@ import Image from "next/image";
 import { urlFor } from "../lib/sanity";
 import { useState } from "react";
 
-// Definisikan tipe data yang lebih spesifik
 interface ImageGalleryProps {
   images: { _id: string; asset: { _ref: string } }[];
 }
 
 export default function ImageGallery({ images }: ImageGalleryProps) {
-  // Tangani kasus jika `images` kosong
-  const [bigImage, setBigImage] = useState(
-    images.length > 0 ? images[0] : null
-  );
-
-  const handleSmallImageClick = (image: {
-    _id: string;
-    asset: { _ref: string };
-  }) => {
-    setBigImage(image);
-  };
+  const [bigImage, setBigImage] = useState(images.length > 0 ? images[0] : null);
 
   return (
-    <div className="grid gap-4">
-      {/* Thumbnail Image List */}
-      <div className="gallery__thumbs order-last">
-        {images.map((image, idx) => (
-          <button
-            type="button"
-            key={image._id ?? idx}
-            className="gallery__thumb"
-            aria-pressed={bigImage === image}
-            aria-label={`View image ${idx + 1}`}
-            onClick={() => handleSmallImageClick(image)}
-          >
-            <Image
-              src={urlFor(image).url()}
-              width={144}
-              height={176}
-              alt=""
-              className="object-cover object-center"
-            />
-          </button>
-        ))}
-      </div>
-
-      {/* Big Image */}
+    <div style={{ display: "grid", gap: "var(--space-sm)" }}>
+      {/* main image */}
       {bigImage ? (
-        <div className="plate">
-          <div className="gallery__main" data-slot="product-main" data-alt="The piece photographed in the room">
+        <div className="card">
+          <div className="plate" style={{ aspectRatio: "4 / 5" }}>
             <Image
               src={urlFor(bigImage).url()}
-              alt="Main Image"
+              alt="Main product image"
               width={1200}
               height={1500}
-              className="h-full w-full object-cover object-center"
+              className="object-cover object-center"
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
             />
           </div>
         </div>
       ) : (
-        <p className="text-center text-gray-500">No images available</p>
+        <p className="text-muted">No images available</p>
+      )}
+
+      {/* thumbnails */}
+      {images.length > 1 && (
+        <div style={{ display: "flex", gap: "var(--space-sm)", flexWrap: "wrap" }}>
+          {images.map((image, idx) => (
+            <button
+              type="button"
+              key={image._id ?? idx}
+              className="card"
+              style={{
+                width: 64, height: 80, padding: 0, cursor: "pointer",
+                overflow: "hidden",
+                outline: bigImage === image ? "2px solid var(--color-accent)" : "none",
+                outlineOffset: 2,
+              }}
+              aria-pressed={bigImage === image}
+              aria-label={`View image ${idx + 1}`}
+              onClick={() => setBigImage(image)}
+            >
+              <Image
+                src={urlFor(image).url()}
+                width={128}
+                height={160}
+                alt=""
+                className="object-cover object-center"
+                style={{ width: "100%", height: "100%" }}
+              />
+            </button>
+          ))}
+        </div>
       )}
     </div>
   );

@@ -34,7 +34,7 @@ export default function AddToBag({
   return (
     <button
       type="button"
-      className="btn"
+      className="btn btn--primary"
       onClick={() => {
         addItem(product);
         handleCartClick();

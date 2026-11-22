@@ -4,7 +4,7 @@ import ImageGallery from "@/app/components/imageGallery";
 import { FullProduct } from "@/app/interface";
 import { client } from "@/app/lib/sanity";
 import Link from "next/link";
-import { Truck } from "lucide-react";
+import { ArrowLeft, Truck } from "lucide-react";
 
 async function getData(slug: string) {
   const query = `*[_type == "product" && slug.current == "${slug}"][0] {
@@ -17,10 +17,7 @@ async function getData(slug: string) {
         "categoryName": category->name,
         price_id
     }`;
-
-  const data = await client.fetch(query);
-
-  return data;
+  return await client.fetch(query);
 }
 
 export const dynamic = 'force-dynamic';
@@ -33,24 +30,35 @@ export default async function ProductPage({
   const { slug } = await params;
   const data: FullProduct = await getData(slug);
   return (
-    <main id="main" className="container pt-[var(--space-3xl)] pb-[var(--section-gap)]">
-      <Link href="/all" className="seeall">
-        All products
+    <main id="main" className="container section" style={{ paddingTop: "var(--space-xl)" }}>
+      <Link href="/all" className="btn btn--ghost btn--sm" style={{ marginBottom: "var(--space-lg)" }}>
+        <ArrowLeft size={15} aria-hidden="true" /> All products
       </Link>
-      <div className="mt-[var(--space-xl)] split">
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          gap: "var(--space-2xl)",
+          alignItems: "start",
+        }}
+      >
         <ImageGallery images={data.images} />
-        <div className="lg:py-[var(--space-lg)]">
-          <p className="piece__line mb-[var(--space-2xs)]">{data.categoryName}</p>
-          <h1 className="!text-[var(--text-title)] lg:!text-[var(--text-2xl)]">
+
+        <div>
+          <p className="eyebrow" style={{ marginBottom: "var(--space-2xs)" }}>
+            {data.categoryName}
+          </p>
+          <h1 style={{ fontSize: "var(--text-2xl)", marginBottom: "var(--space-md)" }}>
             {data.name}
           </h1>
-          {/* the offer: the price held large, the actions beside it */}
-          <div className="stock offer mt-[var(--space-lg)] mb-[var(--space-xl)]">
-            <span className="offer__price num">${data.price}</span>
-            <span className="offer__note num">
-              Incl. Vat plus shipping
-            </span>
-            <div className="actions col-span-full">
+
+          <div className="card" style={{ padding: "var(--space-lg)", marginBottom: "var(--space-lg)" }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: "var(--space-md)", marginBottom: "var(--space-md)" }}>
+              <span className="price price--large">${data.price}</span>
+              <span className="meta">incl. vat + shipping</span>
+            </div>
+            <div style={{ display: "flex", gap: "var(--space-sm)", flexWrap: "wrap" }}>
               <AddToBag
                 currency="USD"
                 description={data.description}
@@ -69,11 +77,12 @@ export default async function ProductPage({
               />
             </div>
           </div>
-          <div className="mb-[var(--space-md)] flex items-center gap-[var(--space-xs)] text-[var(--color-muted)]">
-            <Truck className="w-5 h-5" aria-hidden="true" />
-            <span className="text-sm">2-4 day shipping</span>
-          </div>
-          <div className="measure text-[var(--color-ink-2)] whitespace-pre-line">
+
+          <p className="meta" style={{ display: "flex", alignItems: "center", gap: "var(--space-2xs)", marginBottom: "var(--space-lg)" }}>
+            <Truck size={15} aria-hidden="true" /> 2&ndash;4 day shipping
+          </p>
+
+          <div className="measure text-muted" style={{ whiteSpace: "pre-line" }}>
             {data.description}
           </div>
         </div>

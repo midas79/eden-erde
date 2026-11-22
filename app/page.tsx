@@ -5,9 +5,10 @@ export const dynamic = 'force-dynamic';
 
 export default function Home() {
   return (
-    <main id="main" className="pb-6 sm:pb-8 lg:pb-12">
-      <Hero/>
-      <Newest/>
+    <main id="main">
+      <Hero />
+      <hr className="divider" />
+      <Newest />
     </main>
   );
 }

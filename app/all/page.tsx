@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { SimplifiedProduct } from "../interface";
 import { client } from "../lib/sanity";
-import Image from "next/image";
+import ProductCard from "../components/ProductCard";
 
 async function getData() {
   const query = `*[_type == "product"] | order(_createdAt desc) {
@@ -12,7 +11,6 @@ async function getData() {
     "slug": slug.current,
     "categoryName": category->name
 }`;
-
   return (await client.fetch(query)) as SimplifiedProduct[];
 }
 
@@ -23,46 +21,18 @@ export default async function AllPage() {
 
   return (
     <div>
-      <section className="container pt-[var(--space-3xl)]">
-        <div className="flex flex-col gap-[var(--space-md)] border-b border-[var(--color-rule)] pb-[var(--space-lg)]">
-          <h1>All products</h1>
-          <p className="measure">
-            Every piece in the shop, newest first.
-          </p>
-          <nav aria-label="The range" className="flex flex-wrap items-center gap-x-[var(--space-md)] gap-y-[var(--space-2xs)] text-[var(--text-md)]">
-            <Link href="/Chairs" className="muted hover:text-[var(--color-ink)]">
-              Chairs
-            </Link>
-            <span className="muted" aria-hidden="true">/</span>
-            <Link href="/Couches" className="muted hover:text-[var(--color-ink)]">
-              Couches
-            </Link>
-            <span className="muted" aria-hidden="true">/</span>
-            <Link href="/Tables" className="muted hover:text-[var(--color-ink)]">
-              Tables
-            </Link>
-          </nav>
+      <section className="section container" style={{ paddingTop: "var(--space-2xl)" }}>
+        <div className="section-head">
+          <p className="eyebrow">catalogue</p>
+          <h1 style={{ fontSize: "var(--text-section)", marginBottom: "var(--space-xs)" }}>
+            All products
+          </h1>
+          <p>Every piece in the shop, newest first. {data.length} items.</p>
         </div>
 
-        <div className="pieces mt-[var(--space-2xl)]">
+        <div className="grid-products">
           {data.map((product) => (
-            <Link key={product._id} href={`/product/${product.slug}`} className="piece">
-              <div className="plate">
-                <Image
-                  src={product.imageUrl}
-                  alt={product.name}
-                  className="piece__img w-full object-cover object-center"
-                  width={600}
-                  height={750}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
-              </div>
-              <h3 className="piece__name">{product.name}</h3>
-              <p className="piece__line">{product.categoryName}</p>
-              <p className="piece__foot">
-                <span className="num">${product.price}</span>
-              </p>
-            </Link>
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </section>

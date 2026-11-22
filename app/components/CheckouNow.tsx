@@ -24,7 +24,7 @@ export default function CheckoutNow({
   return (
     <button
       type="button"
-      className="btn btn--quiet"
+      className="btn btn--outline"
       onClick={() => {
         checkoutSingleItem(product.price_id);
       }}

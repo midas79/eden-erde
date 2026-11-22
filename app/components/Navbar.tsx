@@ -15,24 +15,21 @@ const links = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { handleCartClick } = useShoppingCart();
+  const { handleCartClick, cartCount } = useShoppingCart();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="nav">
       <a className="skip-link" href="#main">Skip to content</a>
-      <div className="container nav__row">
+      <div className="container nav__inner">
         <Link href="/" aria-label="EdenErde, home" className="nav__brand">
-          <span className="wordmark">
-            Eden<em>Erde</em>
-          </span>
+          Eden<span>Erde</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="nav__links">
-          {links.map((link, idx) => (
+        <nav className="nav__links" aria-label="Primary">
+          {links.map((link) => (
             <Link
-              key={idx}
+              key={link.href}
               href={link.href}
               aria-current={pathname === link.href ? "page" : undefined}
             >
@@ -41,48 +38,51 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Search and Shopping Cart */}
-        <div className="flex items-center gap-x-2">
-          <Link href="/all" className="nav__search" aria-label="Search the collection">
-            <Search size={16} aria-hidden="true" />
-            <span>Search</span>
+        <div className="nav__actions">
+          <Link href="/all" className="btn btn--ghost btn--sm" aria-label="Browse the collection">
+            <Search size={15} aria-hidden="true" />
+            <span className="hidden sm:inline">Browse</span>
           </Link>
           <button
             type="button"
             onClick={() => handleCartClick()}
-            className="nav__cart btn btn--quiet gap-x-2"
-            aria-label="Open cart"
+            className="btn btn--outline btn--sm"
+            aria-label={`Open cart, ${cartCount ?? 0} items`}
           >
-            <ShoppingBag size={18} aria-hidden="true" />
-            <span>Cart</span>
+            <ShoppingBag size={15} aria-hidden="true" />
+            <span className="hidden sm:inline">Cart</span>
+            {cartCount ? <span className="tag tag--accent">{cartCount}</span> : null}
           </button>
           <button
             type="button"
-            className="lg:hidden btn btn--quiet"
+            className="btn btn--ghost btn--sm lg:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-expanded={menuOpen}
             aria-label="Menu"
           >
-            {menuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+            {menuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
       {menuOpen && (
-        <nav className="lg:hidden container flex flex-col gap-y-3 pb-6 opacity-100 transition-[transform,opacity] duration-500 ease-in-out">
-          {links.map((link, idx) => (
-            <Link
-              key={idx}
-              href={link.href}
-              className="block text-lg"
-              aria-current={pathname === link.href ? "page" : undefined}
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
+        <div className="dlg lg:hidden" role="dialog" aria-label="Menu">
+          <button type="button" className="btn btn--ghost dlg__close" onClick={() => setMenuOpen(false)} aria-label="Close menu">
+            <X size={20} aria-hidden="true" />
+          </button>
+          <nav className="dlg__links" aria-label="Mobile">
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={pathname === link.href ? "page" : undefined}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+        </div>
       )}
     </header>
   );
